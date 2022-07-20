@@ -9,22 +9,32 @@ namespace ParcelCompany.Controllers
     [HttpGet("/parcels")]
     public ActionResult Index()
     {
-      return View();
+      List<Parcel> allParcels = Parcel.GetAll();
+      return View(allParcels);
     }
 
     [HttpGet("/parcels/new")]
-    public ActionResult CreateForm()
+    public ActionResult New()
     {
-      return View("parcels");
+      return View();
     }
 
     [HttpPost("/parcels")]
-    public ActionResult Create(int width, int length, int height, int weight, bool international)
+    public ActionResult Create(string description, int width, int length, int height, int weight, bool international, int finalCost)
     {
-      Parcel newParcel = new Parcel(width, length, height, weight, international);
+      Parcel newParcel = new Parcel(description, width, length, height, weight, international, finalCost);
       newParcel.CostToShip();
       return RedirectToAction("Index");
       
     }
+
+    [HttpGet("/parcels/{id}")]
+    public ActionResult Show(int id)
+    {
+      Parcel foundParcel = Parcel.Find(id);
+      return View(foundParcel);
+    }
+
+
   }
 }

@@ -1,27 +1,44 @@
 using System;
+using System.Collections.Generic;
 
 namespace ParcelCompany.Models
 {
   public class Parcel
   {
     ///getters and setters
+    private static List<Parcel> _list = new List<Parcel>(){};
+    public string Description { get; set; }
     public int Width { get; set; }
     public int Length { get; set; }
     public int Height { get; set; }
     public int Weight { get; set; }
     public bool International { get; set; }
     public int FinalCost { get; set; }
-
+    public int Id { get; }
 
     // constructor
-    public Parcel (int width, int length, int height, int weight, bool international)
+    public Parcel (string description, int width, int length, int height, int weight, bool international, int finalCost)
     {
+      Description = description;
       Width = width;
       Length = length;
       Height = height;
       Weight = weight;
       International = international;
+      FinalCost = finalCost;
+      _list.Add(this);
+      Id = _list.Count;
 
+    }
+
+    public static List<Parcel> GetAll()
+    {
+      return _list;
+    }
+
+    public static Parcel Find(int searchId)
+    {
+      return _list[searchId-1];
     }
 
     public double Volume()
